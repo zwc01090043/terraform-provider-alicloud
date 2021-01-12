@@ -4,10 +4,32 @@ set -e
 
 : ${GITHUB_TOKEN:=?}
 : ${GPG_FINGERPRINT=?}
+: ${DING_TALK_TOKEN=""}
+: ${ALICLOUD_ACCESS_KEY:?}
+: ${ALICLOUD_SECRET_KEY:?}
+: ${BUCKET_NAME:=?}
+: ${BUCKET_REGION:=?}
 
 export GITHUB_TOKEN=${GITHUB_TOKEN}
 export GPG_FINGERPRINT=${GPG_FINGERPRINT}
+
+my_dir="$( cd $(dirname $0) && pwd )"
+release_dir="$( cd ${my_dir} && cd ../.. && pwd )"
+source ${release_dir}/ci/tasks/utils.sh
+
 # https://www.terraform.io/docs/registry/providers/publishing.html
+mkdir -p /root/.gnupg
+aliyun oss cp oss://${BUCKET_NAME}/pubring.kbx pubring.kbx -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+#cp gpg-pubring/pubring.kbx /root/.gnupg/
+#chmod 0777 /root/.gnupg/pubring.kbx
+echo "start to import"
+gpg --import pubring.kbx
+echo "import success"
+ls -l /root/.gnupg
+echo "list keys ...."
+gpg --list-keys
+echo "fingerprint ...."
+gpg --fingerprint
 
 CURRENT_PATH=$(pwd)
 
@@ -75,7 +97,23 @@ git commit -m "Cleanup after release $this_version"
 
 git tag v$this_version
 
+RESULT="[PASS] Publish the teraform-provider-alicloud success."
+if [[ $? -ne 0 ]]; then
+  RESULT="[FAIL] Publish the teraform-provider-alicloud failed.!!!"
+fi
+
 goreleaser release --rm-dist
+
+curl -X POST \
+      "https://oapi.dingtalk.com/robot/send?access_token=${DING_TALK_TOKEN}" \
+      -H 'cache-control: no-cache' \
+      -H 'content-type: application/json' \
+      -d "{
+      \"msgtype\": \"text\",
+      \"text\": {
+              \"content\": \"$RESULT\"
+      }
+      }"
 
 echo "Building providers finished."
 

@@ -8,6 +8,7 @@ image_resource:
 inputs:
   - name: terraform-provider-alicloud
   - name: goreleaser
+  - name: aliyun-cli
 outputs:
   - name: terraform-provider-alicloud
 run:
@@ -15,4 +16,9 @@ run:
 params:
   GITHUB_TOKEN: ""
   GPG_FINGERPRINT: ""
+  DING_TALK_TOKEN: ""
+  ALICLOUD_ACCESS_KEY: ""
+  ALICLOUD_SECRET_KEY: ""
+  BUCKET_NAME: "terraform-pipeline"
+  BUCKET_REGION: "eu-central-1"
 
