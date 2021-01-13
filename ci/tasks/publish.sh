@@ -19,15 +19,17 @@ source ${release_dir}/ci/tasks/utils.sh
 
 # https://www.terraform.io/docs/registry/providers/publishing.html
 mkdir -p /root/.gnupg
-aliyun oss cp oss://${BUCKET_NAME}/pubring.kbx pubring.kbx -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+aliyun oss cp oss://${BUCKET_NAME}/pubring.kbx /root/.gnupg/pubring.kbx -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
 #cp gpg-pubring/pubring.kbx /root/.gnupg/
 #chmod 0777 /root/.gnupg/pubring.kbx
-echo "start to import"
-gpg --import pubring.kbx
-echo "import success"
+#echo "start to import"
+#gpg --import pubring.kbx
+#echo "import success"
 ls -l /root/.gnupg
 echo "list keys ...."
 gpg --list-keys
+echo "list secret keys ...."
+gpg --list-secret-keys
 echo "fingerprint ...."
 gpg --fingerprint
 
