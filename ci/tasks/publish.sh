@@ -26,6 +26,9 @@ aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg $GNUPG_PATH/private-keys.gpg
 
 #cp gpg-pubring/pubring.kbx /root/.gnupg/
 #chmod 0777 /root/.gnupg/pubring.kbx
+echo "start gpg-connect-agent..."
+echo "PRESET_PASSPHRASE ${GPG_FINGERPRINT} -1 7869616f7a6875233336407465727261666f726d" | gpg-connect-agent
+
 echo "start to import"
 gpg --batch --import $GNUPG_PATH/private-keys.gpg
 echo "import success"
