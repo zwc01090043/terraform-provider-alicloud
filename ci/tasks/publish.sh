@@ -19,7 +19,8 @@ release_dir="$( cd ${my_dir} && cd ../.. && pwd )"
 source ${release_dir}/ci/tasks/utils.sh
 
 # https://www.terraform.io/docs/registry/providers/publishing.html
-mkdir -p /root/.gnupg
+echo ~
+mkdir -p ~/.gnupg
 aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg private-keys.gpg -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
 
 #cp gpg-pubring/pubring.kbx /root/.gnupg/
@@ -27,9 +28,9 @@ aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg private-keys.gpg -f --access
 echo "start to import"
 gpg --batch --import private-keys.gpg
 echo "import success"
-aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev /root/.gnupg/openpgp-revocs.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev ~/.gnupg/openpgp-revocs.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
 
-ls -l /root/.gnupg
+ls -l ~/.gnupg
 echo "list keys ...."
 gpg --list-keys
 echo "list secret keys ...."
