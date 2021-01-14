@@ -11,7 +11,8 @@ set -e
 : ${BUCKET_REGION:=?}
 
 export GITHUB_TOKEN=${GITHUB_TOKEN}
-export GPG_FINGERPRINT=${GPG_FINGERPRINT}
+#export GPG_FINGERPRINT=${GPG_FINGERPRINT}
+export GPG_TTY=$(tty)
 
 my_dir="$( cd $(dirname $0) && pwd )"
 release_dir="$( cd ${my_dir} && cd ../.. && pwd )"
@@ -24,7 +25,7 @@ aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg private-keys.gpg -f --access
 #cp gpg-pubring/pubring.kbx /root/.gnupg/
 #chmod 0777 /root/.gnupg/pubring.kbx
 echo "start to import"
-gpg --import private-keys.gpg
+gpg --batch --import private-keys.gpg
 echo "import success"
 ls -l /root/.gnupg
 echo "list keys ...."
