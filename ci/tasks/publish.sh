@@ -20,19 +20,23 @@ source ${release_dir}/ci/tasks/utils.sh
 
 # https://www.terraform.io/docs/registry/providers/publishing.html
 echo ~
-mkdir -p ~/.gnupg
-aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg private-keys.gpg -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+GNUPG_PATH=~/.gnupg
+echo $GNUPG_PATH
+aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg $GNUPG_PATH/private-keys.gpg -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
 
 #cp gpg-pubring/pubring.kbx /root/.gnupg/
 #chmod 0777 /root/.gnupg/pubring.kbx
 echo "start to import"
-gpg --batch --import private-keys.gpg
+gpg --batch --import $GNUPG_PATH/private-keys.gpg
 echo "import success"
-export GPG_PRIVATE_KEY=${pwd}/private-keys.gpg
+export GPG_PRIVATE_KEY=$GNUPG_PATH/private-keys.gpg
 echo "GPG_PRIVATE_KEY: ${GPG_PRIVATE_KEY}"
-aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev ~/.gnupg/openpgp-revocs.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+echo "ls -l $GNUPG_PATH/private-keys-v1.d"
+ls -l $GNUPG_PATH/private-keys-v1.d
+aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev ~/.gnupg/private-keys-v1.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
 
-ls -l ~/.gnupg
+echo "ls -l $GNUPG_PATH..."
+ls -l $GNUPG_PATH
 echo "list keys ...."
 gpg --list-keys
 echo "list secret keys ...."
