@@ -33,7 +33,11 @@ export GPG_PRIVATE_KEY=$GNUPG_PATH/private-keys.gpg
 echo "GPG_PRIVATE_KEY: ${GPG_PRIVATE_KEY}"
 echo "ls -l $GNUPG_PATH/private-keys-v1.d"
 ls -l $GNUPG_PATH/private-keys-v1.d
-aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev ~/.gnupg/private-keys-v1.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+mkdir $GNUPG_PATH/openpgp-revocs.d
+aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev ~/.gnupg/openpgp-revocs.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+
+echo "ls -l $GNUPG_PATH/openpgp-revocs.d"
+ls -l $GNUPG_PATH/openpgp-revocs.d
 
 echo "ls -l $GNUPG_PATH..."
 ls -l $GNUPG_PATH
