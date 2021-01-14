@@ -59,7 +59,7 @@ jobs:
   - name: Start
     plan:
       - <<: *clone-provider
-        trigger: false
+        trigger: true
       - task: simple-task
         config:
           platform: linux
@@ -224,13 +224,13 @@ resources:
   type: git
   source:
     uri: https://github.com/aliyun/terraform-provider-alicloud.git
-    branch: xiaozhu
+    branch: ci
 
 - name: terraform-provider-alicloud-out
   type: git
   source:
     uri: git@github.com:aliyun/terraform-provider-alicloud.git
-    branch: xiaozhu
+    branch: ci
     private_key: {{github_terraform-alicloud-provider_private-key}}
 
 - name: goreleaser
