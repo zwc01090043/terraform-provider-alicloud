@@ -27,6 +27,8 @@ aliyun oss cp oss://${BUCKET_NAME}/private-keys.gpg private-keys.gpg -f --access
 echo "start to import"
 gpg --batch --import private-keys.gpg
 echo "import success"
+aliyun oss cp oss://${BUCKET_NAME}/${GPG_FINGERPRINT}.rev /root/.gnupg/openpgp-revocs.d/${GPG_FINGERPRINT}.rev -f --access-key-id ${ALICLOUD_ACCESS_KEY} --access-key-secret ${ALICLOUD_SECRET_KEY} --region ${BUCKET_REGION}
+
 ls -l /root/.gnupg
 echo "list keys ...."
 gpg --list-keys
