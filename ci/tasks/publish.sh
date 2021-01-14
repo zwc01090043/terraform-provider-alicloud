@@ -11,7 +11,7 @@ set -e
 : ${BUCKET_REGION:=?}
 
 export GITHUB_TOKEN=${GITHUB_TOKEN}
-#export GPG_FINGERPRINT=${GPG_FINGERPRINT}
+export GPG_FINGERPRINT=${GPG_FINGERPRINT}
 
 my_dir="$( cd $(dirname $0) && pwd )"
 release_dir="$( cd ${my_dir} && cd ../.. && pwd )"
