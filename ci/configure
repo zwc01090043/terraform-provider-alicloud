@@ -110,7 +110,7 @@ fly -t terraform-intl sp -p publish-alicloud-provider \
   -v alicloud_secret_key=$ALICLOUD_SECRET_KEY \
   -v alicloud_region="eu-central-1" \
   -v alicloud_github_token=$GITHUB_TOKEN \
-  -v alicloud_gpg_fingerprint=$GPG_FINGERPRINT \
+  -v alicloud_gpg_fingerprint="676AE2DC58821831EDFF053B1813DE2B593B248D" \
   -v alicloud_gpg_region="eu-central-1" \
   -v alicloud_gpg_bucket="terraform-pipeline" \
   --load-vars-from=vars-publish.yml
