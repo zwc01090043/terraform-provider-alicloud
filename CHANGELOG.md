@@ -1,4 +1,5 @@
-## 1.113.0 (Unreleased)
+## 1.112.2 (Unreleased)
+## 1.112.1 (January 15, 2021)
 ## 1.112.0 (January 12, 2021)
 
 - **New Resource:** `alicloud_ga_bandwidth_package` ([#3194](https://github.com/aliyun/terraform-provider-alicloud/issues/3194))
