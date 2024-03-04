@@ -1222,7 +1222,6 @@ func resourceAliCloudDBInstanceUpdate(d *schema.ResourceData, meta interface{}) 
 			return err
 		}
 		connectionStringPrefix := strings.Split(instance["ConnectionString"].(string), ".")[0]
-
 		connectRequest["CurrentConnectionString"] = instance["ConnectionString"]
 		connectRequest["Port"] = instance["Port"]
 		connectRequest["ConnectionStringPrefix"] = connectionStringPrefix
