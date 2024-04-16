@@ -3497,6 +3497,7 @@ func testAccCheckSecurityIpExists(n string, ips []map[string]interface{}) resour
 
 		ips = rdsService.flattenDBSecurityIPs(resp)
 		return nil
+
 	}
 }
 
